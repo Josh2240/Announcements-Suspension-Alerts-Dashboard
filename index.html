@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Announcements & Suspension Alerts Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <span class="logo">🌧️</span>
+            <div>
+                <h1>Announcements &amp; Suspension Alerts Dashboard</h1>
+                <p class="subtitle">Real-time class suspensions and weather advisories</p>
+            </div>
+        </div>
+        <div class="topbar-actions">
+            <div class="date-pill" id="datePill">—</div>
+            <button id="refreshBtn" class="ghost-btn" title="Reload data">↻ Refresh</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h2>September 3, 2026 — Active Weather Event</h2>
+            <p>
+                Heavy rains from the enhanced <strong>Southwest Monsoon (Habagat)</strong> and
+                <strong>Tropical Storm Pilandok</strong> have prompted widespread safety measures.
+                Multiple Local Government Units (LGUs) have raised alerts and declared
+                <span class="tag tag-walang">#WalangPasok</span> class suspensions.
+            </p>
+        </section>
+
+        <section class="toolbar">
+            <div class="search">
+                <input id="searchInput" type="search" placeholder="Search municipality, province, or level…" />
+            </div>
+            <div class="filters" role="tablist" aria-label="Province filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="La Union">La Union</button>
+                <button class="filter-btn" data-filter="Pangasinan">Pangasinan</button>
+                <button class="filter-btn" data-filter="Pampanga">Pampanga</button>
+            </div>
+            <div class="meta">
+                <span class="dot"></span>
+                <span id="lastUpdated">Last updated: just now</span>
+            </div>
+        </section>
+
+        <section class="alerts" id="alertsContainer">
+            <article class="card province" data-province="La Union">
+                <header class="card-header">
+                    <h3>La Union Province</h3>
+                    <span class="count">6 suspensions</span>
+                </header>
+                <ul class="suspension-list">
+                    <li><span class="muni">Agoo</span><span class="level">Kindergarten – Senior High School (Public &amp; Private)</span></li>
+                    <li><span class="muni">Aringay</span><span class="level">All Levels (Public &amp; Private)</span></li>
+                    <li><span class="muni">Burgos</span><span class="level">All Levels (Public &amp; Private)</span></li>
+                    <li><span class="muni">Caba</span><span class="level">All Levels — shifts to Asynchronous Modality</span></li>
+                    <li><span class="muni">San Gabriel</span><span class="level">All Levels (Public &amp; Private)</span></li>
+                    <li><span class="muni">Tubao</span><span class="level">All Levels (Public &amp; Private)</span></li>
+                </ul>
+            </article>
+
+            <article class="card province" data-province="Pangasinan">
+                <header class="card-header">
+                    <h3>Pangasinan Province</h3>
+                    <span class="count">3 suspensions</span>
+                </header>
+                <ul class="suspension-list">
+                    <li><span class="muni">Bugallon</span><span class="level">All Levels (Public &amp; Private)</span></li>
+                    <li><span class="muni">Mangaldan</span><span class="level">All Levels — shifts to alternative delivery modes</span></li>
+                    <li><span class="muni">San Carlos City</span><span class="level">All Levels — shifts to alternative delivery modes</span></li>
+                </ul>
+            </article>
+
+            <article class="card province" data-province="Pampanga">
+                <header class="card-header">
+                    <h3>Pampanga Province</h3>
+                    <span class="count">3 suspensions</span>
+                </header>
+                <ul class="suspension-list">
+                    <li><span class="muni">City of San Fernando</span><span class="level">Suspended until Friday, Sept 4 — shifts to alternative delivery modes</span></li>
+                    <li><span class="muni">Minalin</span><span class="level">Suspended until Friday, Sept 4 — shifts to alternative delivery modes</span></li>
+                    <li><span class="muni">San Simon</span><span class="level">Suspended until Friday, Sept 4 due to ongoing flood recovery</span></li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="grid">
+            <article class="status-card">
+                <h3>🌦️ Weather &amp; System Status Summary</h3>
+                <table class="status-table">
+                    <thead>
+                        <tr><th>Parameter</th><th>Current Status</th><th>Impact / Action</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>System Profile</td>
+                            <td>Southwest Monsoon (Habagat) + Tropical Storm Pilandok</td>
+                            <td>Heavy downpours; risk of flash floods and landslides.</td>
+                        </tr>
+                        <tr>
+                            <td>Government Work</td>
+                            <td>Operational (unless local LGU issues specific orders)</td>
+                            <td>Essential health and disaster response teams remain at full capacity.</td>
+                        </tr>
+                        <tr>
+                            <td>Private Sector</td>
+                            <td>LGU Discretionary Advice</td>
+                            <td>Employers encouraged to adopt flexible or remote work setups.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="tips-card">
+                <h3>💡 Public Safety Reminders</h3>
+                <ul class="tips">
+                    <li>
+                        <strong>Verify Before Commuting.</strong> Check your specific school or official LGU social media pages —
+                        suspension lists grow throughout the day. If your municipality is not listed, assume standard schedules apply.
+                    </li>
+                    <li>
+                        <strong>Monitor Alerts.</strong> Stay tuned to PAGASA Weather Advisories for real-time heavy rainfall and
+                        orange/red warning signals.
+                    </li>
+                    <li>
+                        <strong>Prepare a Go-Bag.</strong> Keep essentials (water, flashlight, phone power bank, first-aid, documents)
+                        ready in case of evacuation.
+                    </li>
+                    <li>
+                        <strong>Avoid Floodwaters.</strong> Turn around, don't drown — just 15 cm of moving water can knock you down.
+                    </li>
+                </ul>
+            </article>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Data compiled from LGU advisories and PAGASA bulletins. Always cross-check with official sources.</p>
+        <p class="muted">© 2026 Announcements &amp; Suspension Alerts Dashboard</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
