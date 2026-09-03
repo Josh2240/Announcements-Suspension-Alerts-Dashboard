@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Announcements & Suspension Alerts Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <span class="logo">🌧️</span>
+            <div>
+                <h1>Announcements &amp; Suspension Alerts Dashboard</h1>
+                <p class="subtitle">Real-time class suspensions and weather advisories</p>
+            </div>
+        </div>
+        <div class="topbar-actions">
+            <div class="date-pill"><%= now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></div>
+            <button id="refreshBtn" class="ghost-btn" title="Reload data">↻ Refresh</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <% if (announcement) { %>
+        <section class="hero">
+            <h2><%= announcement.title %></h2>
+            <p><%= announcement.body %></p>
+        </section>
+        <% } %>
+
+        <section class="toolbar">
+            <div class="search">
+                <input id="searchInput" type="search" placeholder="Search municipality, level, or modality…" />
+            </div>
+            <div class="filters" role="tablist" aria-label="Province filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="La Union">La Union</button>
+                <button class="filter-btn" data-filter="Pangasinan">Pangasinan</button>
+                <button class="filter-btn" data-filter="Pampanga">Pampanga</button>
+            </div>
+            <div class="meta">
+                <span class="dot"></span>
+                <span id="lastUpdated">Last updated: <%= now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) %></span>
+            </div>
+        </section>
+
+        <section class="alerts" id="alertsContainer">
+            <%
+            const byProvince = {};
+            suspensions.forEach(s => {
+                if (!byProvince[s.province]) byProvince[s.province] = [];
+                byProvince[s.province].push(s);
+            });
+            Object.keys(byProvince).forEach(prov => {
+                const list = byProvince[prov];
+            %>
+            <article class="card province" data-province="<%= prov %>">
+                <header class="card-header">
+                    <h3><%= prov %> Province</h3>
+                    <span class="count"><%= list.length %> suspension<%= list.length === 1 ? '' : 's' %></span>
+                </header>
+                <ul class="suspension-list">
+                    <% list.forEach(s => { %>
+                    <li data-id="<%= s.id %>">
+                        <span class="muni"><%= s.municipality %></span>
+                        <span class="level">
+                            <%= s.level %><% if (s.modality) { %> — <%= s.modality %><% } %><% if (s.until_date) { %> <span class="until">(until <%= s.until_date %>)</span><% } %>
+                            <button class="del-btn" data-id="<%= s.id %>" title="Remove">✕</button>
+                        </span>
+                    </li>
+                    <% }); %>
+                </ul>
+            </article>
+            <% }); %>
+            <p id="emptyState" class="empty-state hidden">No suspensions match your filter.</p>
+        </section>
+
+        <section class="grid">
+            <article class="status-card">
+                <h3>🌦️ Weather &amp; System Status Summary</h3>
+                <table class="status-table">
+                    <thead>
+                        <tr><th>Parameter</th><th>Current Status</th><th>Impact / Action</th></tr>
+                    </thead>
+                    <tbody>
+                        <% status.forEach(row => { %>
+                        <tr>
+                            <td><%= row.parameter %></td>
+                            <td><%= row.current_status %></td>
+                            <td><%= row.impact %></td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="tips-card">
+                <h3>💡 Public Safety Reminders</h3>
+                <ul class="tips">
+                    <% tips.forEach(tip => { %>
+                    <li><strong><%= tip.title %>.</strong> <%= tip.body %></li>
+                    <% }); %>
+                </ul>
+            </article>
+        </section>
+
+        <section class="admin">
+            <details>
+                <summary>➕ Add a suspension (admin)</summary>
+                <form id="addForm" class="admin-form">
+                    <input name="province" placeholder="Province (e.g. Pampanga)" required />
+                    <input name="municipality" placeholder="Municipality (e.g. Apalit)" required />
+                    <input name="level" placeholder="Level (e.g. All Levels)" required />
+                    <input name="modality" placeholder="Modality (optional)" />
+                    <input name="until_date" type="date" />
+                    <button type="submit">Add Suspension</button>
+                </form>
+                <p id="formMsg" class="form-msg"></p>
+            </details>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Data compiled from LGU advisories and PAGASA bulletins. Always cross-check with official sources.</p>
+        <p class="muted">© 2026 Announcements &amp; Suspension Alerts Dashboard</p>
+    </footer>
+
+    <script src="/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "announcements-suspension-alerts-dashboard",
+  "version": "1.0.0",
+  "description": "Full-stack Announcements & Suspension Alerts Dashboard with Express + SQLite",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "sql.js": "^1.12.0"
+  }
+}
